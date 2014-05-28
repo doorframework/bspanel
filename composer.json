@@ -1,0 +1,15 @@
+{
+    "name": "doorframework/bspanel",
+    "license": "MIT",
+    "type": "door-module",
+    "description": "Layout and components to create nice administrative/dashboard panel using bootstrap css framework and door",
+    "authors": [
+		{
+			"name": "Sergey Sachik",
+			"homepage": "http://serginho.ru/"
+		}
+    ],
+    "require": {
+		"doorframework/bootstrap" : "*"
+    }
+}
