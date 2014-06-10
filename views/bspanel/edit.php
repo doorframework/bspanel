@@ -23,7 +23,13 @@ $h = $app->html;
 <? } ?>
 
 
-<form role="form" class="form-horizontal" method="POST" action="">						
+<form role="form" class="form-horizontal" method="POST" action="">		
+	<?
+		if($filter_param != null)
+		{
+			echo \Door\Core\Helper\Form::hidden($filter_param, $model->$filter_param);
+		}
+	?>
 	<?=$fields?>
 	<div class="clearfix"></div>
 	<div class="form-group text-right">

@@ -59,6 +59,8 @@ class AdminPanel {
 			'model' => $model,
 			'params' => $params
 		);
+		
+		return $this;
 	}	
 	
 	protected function uri($uri)
