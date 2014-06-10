@@ -11,5 +11,10 @@
     ],
     "require": {
 		"doorframework/bootstrap" : "dev-master"
-    }
+    },
+    "autoload": {
+        "psr-0" : {
+            "Door\\BSPanel" : "classes"
+        }
+    },	
 }
