@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * Created by Sachik Sergey
+ * box@serginho.ru
+ */
+namespace App\Controller\Admin;
+use Door\Core\Helper\Arr;
+/**
+ * Description of Login
+ *
+ * @author serginho
+ */
+class Login extends Layout {
+	
+	protected $layout_name = "admin/login_layout";
+	
+	public function execute() {
+		
+		if(count($_POST) > 0)
+		{
+			$this->app->auth->login(Arr::get($_POST,'username'), Arr::get($_POST,'password'));
+		}
+
+		
+		if($this->app->auth->logged_in('admin_panel'))
+		{			
+			$this->redirect("admin");
+			return;
+		}
+		
+		$this->add_style("admin/login");
+		$view = $this->app->views->get('admin/login');
+		$view->is_error = count($_POST) > 0;
+		$view->username = Arr::get($_POST, 'username');
+		
+		$this->response->body($view);
+		
+		parent::execute();
+	}
+	
+}

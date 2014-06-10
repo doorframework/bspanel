@@ -1,0 +1,26 @@
+.thumb-image{
+	border: 1px solid #ccc;
+	float: left;
+	margin: 0 20px 20px 0;	
+	position: relative;
+}
+.thumb-image i{
+	position: absolute;
+	right: 0;
+	top: 0;
+	cursor: pointer;
+	width: 1.2em;
+	text-align: center;
+}
+.box-content:after{
+    display: table;
+    content: " ";  
+    clear: both;
+}
+.main-page-links .btn{
+	
+}
+.main-page-links .btn { width:120px;margin-bottom:10px; }
+.main-page-links .btn span.fa{
+	font-size: 1.2em;
+}

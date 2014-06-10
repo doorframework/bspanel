@@ -10,6 +10,6 @@
 		}
     ],
     "require": {
-		"doorframework/bootstrap" : "*"
+		"doorframework/bootstrap" : "dev-master"
     }
 }
