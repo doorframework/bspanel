@@ -1,6 +1,6 @@
 <?
 /* @var $app Door\Core\Application */
-
+use Door\Bootstrap\Helper\Icons;
 $h = $app->html;
 
 ?><!DOCTYPE html>
@@ -123,13 +123,13 @@ $h = $app->html;
 					<? foreach($admin_menu as $item) { ?>
 					<?
 						$class = "";
-						if($uri == $item['uri'])
+						if($uri == $item->uri)
 						{
 							$class = "active";
 						}
 					?>
 					 <li>
-						<?=$h->anchor($item['uri'],"<i class='fa fa-{$item['icon']}'></i><span class='hidden-xs'>{$item['text']}</span>",array('class' => $class))?>
+						<?=$h->anchor($item->uri,Icons::show($item->icon)."<span class='hidden-xs'>{$item->text}</span>",array('class' => $class))?>
 					 </li>					
 					<? } ?>
 													
