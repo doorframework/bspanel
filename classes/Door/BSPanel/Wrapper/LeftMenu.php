@@ -16,15 +16,15 @@ class LeftMenu extends Wrapper{
 	
 	protected $menu_items = array();
 	
-	public function after() {
+	public function before() {		
 		
 		if($this->controller instanceof Layout)
 		{
-			$layout = $this->controller->get_layout();
+			$layout = $this->controller->get_layout();			
 			$layout->admin_menu = $this->menu_items;			
 		}
 		
-		parent::after();
+		parent::before();
 	}
 	
 }

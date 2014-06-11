@@ -26,4 +26,26 @@ $(function(){
 	}
 	
 	$('.select2').select2({placeholder: "Выбор"});
+	
+	$('table.sortable-table').each(function(){
+		
+		var table = $(this);
+		var tbody = table.find('tbody');
+		tbody.sortable({
+			update: function(){
+				
+				var ids = [];
+				
+				tbody.children().each(function(index, tr){
+					ids.push($(tr).data('id'));
+				});
+				
+				$.post(location.href,{
+					'update_sort': 1,
+					'ids': ids.join(',')
+				});
+			}
+		});
+		
+	});
 });

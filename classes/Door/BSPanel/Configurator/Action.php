@@ -18,11 +18,14 @@ class Action {
 	
 	public $icon;
 	
-	public function __construct($name, $uri, $icon)
+	public $attributes = array();
+	
+	public function __construct($name, $uri, $icon, $attributes = array())
 	{
 		$this->name = $name;
 		$this->uri = $uri;
 		$this->icon = $icon;
+		$this->attributes = $attributes;
 	}
 	
 }

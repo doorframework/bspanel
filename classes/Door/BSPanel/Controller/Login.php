@@ -4,7 +4,7 @@
  * Created by Sachik Sergey
  * box@serginho.ru
  */
-namespace App\Controller\Admin;
+namespace Door\BSPanel\Controller;
 use Door\Core\Helper\Arr;
 /**
  * Description of Login
@@ -29,8 +29,8 @@ class Login extends Layout {
 			return;
 		}
 		
-		$this->add_style("admin/login");
-		$view = $this->app->views->get('admin/login');
+		$this->add_style("bspanel/panel/login");
+		$view = $this->app->views->get('bspanel/login');
 		$view->is_error = count($_POST) > 0;
 		$view->username = Arr::get($_POST, 'username');
 		

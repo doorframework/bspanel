@@ -14,3 +14,21 @@ $app->router->register_controller("bspanel/panel", "/Door/BSPanel/Controller/Pan
 
 $app->router->register_wrapper("bspanel/left_menu", "/Door/BSPanel/Wrapper/LeftMenu");
 
+$app->image->add_presentation('bspanel_list', array(
+	array(
+		'converter' => 'fitbox',
+		'width' => 240,
+		'height' => 137,
+		'strict' => true
+	)
+));
+
+$app->image->add_presentation('bspanel_image', array(
+	array(
+		'converter' => 'fitbox',
+		'width' => 240,
+		'height' => 240
+	)
+));
+
+

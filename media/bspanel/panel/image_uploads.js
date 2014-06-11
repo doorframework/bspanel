@@ -132,6 +132,8 @@ $(function(){
 		var btn = wrap.find('button.upload');
 		var hidden = wrap.find('input[type=hidden]');
 		var img_holder = wrap.find('.image-block');
+		var upload_image_url = wrap.data('upload-image-url');
+		var view_image_url = wrap.data('view-image-url');
 		
 		img_holder.on('click','i', function(){
 			if(confirm("Удалить фотографию?"))
@@ -151,7 +153,7 @@ $(function(){
 				
 			} else {
 				
-				$.post("/admin/view_images",{image_id:img_id},function(response){
+				$.post(view_image_url,{image_id:img_id},function(response){
 					img_holder.html(response);			
 				});				
 				
@@ -159,6 +161,9 @@ $(function(){
 		}
 		
 		btn.click(function(){
+			
+			initUploads();
+			upload_form.attr('action', upload_image_url);
 			
 			var oldBtnVal = btn.html();
 			

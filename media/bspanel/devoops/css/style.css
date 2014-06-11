@@ -760,6 +760,7 @@ td.beauty-hover {
   -moz-user-select: none;
   -webkit-user-select: none;
   outline: none !important;
+  color: #525252;
 }
 .btn-label-left, .btn-label-right {
   padding: 0 10px;

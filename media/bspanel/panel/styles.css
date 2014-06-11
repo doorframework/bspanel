@@ -24,3 +24,16 @@
 .main-page-links .btn span.fa{
 	font-size: 1.2em;
 }
+table.sortable-table .sortfield{
+	cursor:move;
+}
+
+.powered{
+	text-align:center;
+	margin-top: 50px;
+	color: white;	
+}
+.powered a {
+	color: white;
+	text-decoration: underline;
+}

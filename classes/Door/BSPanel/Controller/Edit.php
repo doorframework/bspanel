@@ -27,17 +27,22 @@ class Edit extends Layout{
 	
 	protected $edit_fields = array();
 	
+	protected $view_images_uri = "";
 	
-	public function execute() {
-		
-		$edit_fields = $this->configure_fields($model);
+	protected $upload_images_uri = "";
+	
+	protected $upload_image_uri = "";
+	
+	
+	public function execute() {				
 		
 		$return_uri = $this->return_uri;				
 		
-		$model_name = $this->param($this->model_param, $this->model_name);
 		$id = $this->param('id');
 		
 		$model = $this->app->models->factory($this->model, $id);		
+		
+		$edit_fields = $this->configure_fields($model);
 		
 		if($id !== null && false == $model->loaded())
 		{
@@ -102,7 +107,11 @@ class Edit extends Layout{
 		}				
 		
 		$builder = new FormBuilder();
+		$builder->set_model($model);
 		$builder->add_fields($edit_fields);
+		$builder->data('view_images_uri', $this->view_images_uri);
+		$builder->data('upload_image_uri', $this->upload_image_uri);
+		$builder->data('upload_images_uri', $this->upload_images_uri);
 		
 		$view->fields = $builder->render();	
 		

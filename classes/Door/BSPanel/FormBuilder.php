@@ -23,6 +23,8 @@ class FormBuilder {
 		'wysiwyg'
 	);
 	
+	protected $data = array();
+	
 	protected $fields = array();
 	
 	/**
@@ -51,13 +53,13 @@ class FormBuilder {
 			throw new Exeption("bad type supported");
 		}	
 		
-		$view = $this->model->app()->views->get("bspanel/field/".$type);
+		$view = $this->model->app()->views->get("bspanel/field/".$type, $this->data);
 		
 		$view->name = $name;
 		$view->value = $this->model->$name;
-		$view->model = $model;
+		$view->model = $this->model;
 		
-		$layout = $this->model->app->views->get('baspanel/field/layout');
+		$layout = $this->model->app()->views->get('bspanel/field/layout');
 		
 		$layout->name = $name;
 		$layout->field = $view->render();
@@ -69,7 +71,6 @@ class FormBuilder {
 	public function render()
 	{
 		$return_value = array();
-		
 		foreach($this->fields as $config)
 		{
 			$return_value[] = $this->render_field($config);
@@ -97,6 +98,11 @@ class FormBuilder {
 		{
 			$this->add_fields($model->get_panel_form());
 		}
+	}
+	
+	public function data($key, $value)
+	{
+		$this->data[$key] = $value;
 	}
 	
 }

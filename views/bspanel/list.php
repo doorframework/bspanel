@@ -21,9 +21,12 @@ $h = $app->html;
 </h1>
 <div class="container">
     <div class="row col-md-8 col-md-offset-1 custyle">
-    <table class="table table-striped">
+    <table class="table table-striped <?=$sortable ? 'sortable-table' : ''?>" data-filter-param="<?=$filter_param?>" data-filter-value="<?=$filter_value?>">
     <thead>    
         <tr>
+			<? if($sortable) { ?>
+			<th>&nbsp;</th>
+			<? } ?>
 			<? foreach($columns as $column) { ?>
 			<th><?=$l->get($column)?></th>
 			<? } ?>
@@ -31,7 +34,7 @@ $h = $app->html;
 				<?
 					if($create_button)
 					{
-						echo $h->anchor($uri."/edit", '<span class="glyphicon glyphicon-circle_plus"></span> '.$l->get($model->get_model_name().".create"), array(
+						echo $h->anchor($uri."/edit", '<span class="glyphicon glyphicon-circlePlus"></span> '.$l->get($model->get_model_name().".create"), array(
 							'class' => 'btn btn-primary'
 						));
 					}
@@ -40,12 +43,15 @@ $h = $app->html;
         </tr>
     </thead>
 	<? foreach($items as $item) { ?>
-            <tr>
+            <tr data-id="<?=$item->pk()?>">
+				<? if($sortable) { ?>
+				<td class="sortfield"><?= \Door\Bootstrap\Helper\Icons::fa('bars')?></td>
+				<? } ?>				
 				<?
 					$fields = $model->get_fields();
 					foreach($columns as $column)
-					{
-						$val = $model->$column;
+					{											
+						$val = $item->$column;
 						if($fields[$column]['type'] == 'boolean')
 						{
 							$val = $val ? $l->get("Yes") : $l->get("No");
@@ -58,12 +64,22 @@ $h = $app->html;
 						foreach($buttons as $button)
 						{
 							$icon = htmlspecialchars($button->icon);
-							$uri = str_replace("<id>", $item->pk(), $uri);
+							$uri = str_replace("<id>", $item->pk(), $button->uri);
+							
+							if( ! isset($button->attributes['class']))
+							{
+								$button->attributes['class'] = "";
+							}
+							
+							$button->attributes['class'] .= " btn btn-xs";
+							
 							echo $h->anchor($uri, 
 									"<span class='glyphicon $icon'></span> {$l->get($button->name)}", 
-									array('class' => 'btn btn-info btn-xs'));
+									$button->attributes)." ";
 						}
-					?>					
+					?>			
+					<button class='btn btn-info'>button</button>
+					<a class='btn btn-info'>button</a>
 				</td>
             </tr>
 	<? } ?>

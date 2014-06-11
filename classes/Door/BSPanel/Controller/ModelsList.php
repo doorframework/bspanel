@@ -7,6 +7,7 @@
 
 namespace Door\BSPanel\Controller;
 use Door\Core\Helper\Arr;
+use Door\Core\Model;
 
 /**
  * Description of Panel
@@ -27,9 +28,15 @@ class ModelsList extends Layout  {
 	
 	protected $columns = array();
 	
+	protected $sortable = false;
+	
+	protected $sort_column = 'sort';
+	
 	public function execute() {				
 		
-		$model = $this->app->models->factory('model');
+		$model = $this->app->models->factory($this->model);
+		
+		$filter_value = null;
 		
 		$return_uri = $this->return_uri;
 		
@@ -49,18 +56,48 @@ class ModelsList extends Layout  {
 			$return_uri = str_replace("<id>", $filter_value, $return_uri);
 		}
 		
+		if(isset($_POST['update_sort']))
+		{
+			$this->update_sort($model->find_all()->as_array(), explode(",", $_POST['ids']));
+			$this->response->body("true");
+			$this->show_layout = false;
+			return;
+		}
+		
 		$view = $this->app->views->get("bspanel/list");
 		$view->model = $model;
-		$view->items = $model->find_all()->as_array();		
+		$cursor = $model->find_all();
+		if($this->sortable)
+		{
+			$cursor->sort(array($this->sort_column => 1));
+		}
+		
+		$view->items = $cursor->as_array();		
 		$view->create_button = $this->create;
 		$view->uri = $this->request->uri();
 		$view->return_uri = $return_uri;
 		$view->buttons = $this->buttons;
 		$view->columns = $this->columns;
-		
+		$view->sortable = $this->sortable;		
+		$view->filter_param = $this->filter_param;
+		$view->filter_value = $filter_value;
 		$this->response->body($view->render());
 		
 		parent::execute();
+	}
+	
+	protected function update_sort(array $items, array $sorted_ids)
+	{
+		foreach($items as $item)
+		{
+			$id = $item->pk();
+			$index = array_search($id, $sorted_ids);
+			if($index !== false)
+			{
+				$item->sort = $index;
+				$item->save();
+			}
+		}
 	}
 	
 }

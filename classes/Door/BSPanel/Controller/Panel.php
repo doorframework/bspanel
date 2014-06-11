@@ -5,7 +5,7 @@
  * box@serginho.ru
  */
 
-namespace App\Controller\Admin;
+namespace Door\BSPanel\Controller;
 
 /**
  * Description of Panel
@@ -17,7 +17,7 @@ class Panel extends Layout  {
 	public function execute() {				
 		
 		
-		$view = $this->app->views->get("bootstrap/index");
+		$view = $this->app->views->get("bspanel/panel");
 		
 		$this->response->body($view);
 		

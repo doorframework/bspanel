@@ -129,11 +129,13 @@ $h = $app->html;
 						}
 					?>
 					 <li>
-						<?=$h->anchor($item->uri,Icons::show($item->icon)."<span class='hidden-xs'>{$item->text}</span>",array('class' => $class))?>
+						<?=$h->anchor($item->uri,Icons::show($item->icon)." <span class='hidden-xs'>{$item->name}</span>",array('class' => $class))?>
 					 </li>					
 					<? } ?>
 													
 				</ul>
+				
+				<div class="powered">Powered by <a href='https://github.com/doorframework'>Door Framework</a></div>
 			</div>
 			<!--Start Content-->
 			<div id="content" class="col-xs-12 col-sm-10">
