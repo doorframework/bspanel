@@ -7,20 +7,22 @@
 /* @var $buttons array */
 /* @var $uri string */
 
+use \Door\Bootstrap\Helper\Icons;
+
 $l = $app->lang;
 $h = $app->html;
 
 ?>
-<h1>
-	<?=$l->get($model->get_model_name().".list")?>
-	<? 
-	if(strlen($return_uri) > 0) { 
-		echo $h->anchor($return_uri, '<span class="glyphicon glyphicon-backward"></span> '.$l->get("back"));
-	} 
-	?>
-</h1>
 <div class="container">
-    <div class="row col-md-8 col-md-offset-1 custyle">
+    <div class="row col-md-12 custyle">
+	<h1>
+		<?=$l->get_ucf($model->get_model_name().".list")?>
+		<? 
+		if(strlen($return_uri) > 0) { 
+			echo $h->anchor($return_uri, Icons::glyphicon('backward').' '.$l->get_ucf("back"),array('class' => 'btn btn-info'));
+		} 
+		?>
+	</h1>				
     <table class="table table-striped <?=$sortable ? 'sortable-table' : ''?>" data-filter-param="<?=$filter_param?>" data-filter-value="<?=$filter_value?>">
     <thead>    
         <tr>
@@ -28,13 +30,14 @@ $h = $app->html;
 			<th>&nbsp;</th>
 			<? } ?>
 			<? foreach($columns as $column) { ?>
-			<th><?=$l->get($column)?></th>
+			<th><?=$l->get_ucf($column)?></th>
 			<? } ?>
             <th class="text-right">
 				<?
 					if($create_button)
 					{
-						echo $h->anchor($uri."/edit", '<span class="glyphicon glyphicon-circlePlus"></span> '.$l->get($model->get_model_name().".create"), array(
+						$uri_param = $filter_param == null ? "" : "?{$filter_param}=$filter_value";
+						echo $h->anchor($uri."/edit".$uri_param, Icons::glyphicon('plus').' '.$l->get_ucf($model->get_model_name().".create"), array(
 							'class' => 'btn btn-primary'
 						));
 					}
@@ -54,7 +57,7 @@ $h = $app->html;
 						$val = $item->$column;
 						if($fields[$column]['type'] == 'boolean')
 						{
-							$val = $val ? $l->get("Yes") : $l->get("No");
+							$val = Icons::show($val ? "ok" : "remove");
 						}
 						echo "<td>$val</td>";
 					}
@@ -63,23 +66,9 @@ $h = $app->html;
 					<?
 						foreach($buttons as $button)
 						{
-							$icon = htmlspecialchars($button->icon);
-							$uri = str_replace("<id>", $item->pk(), $button->uri);
-							
-							if( ! isset($button->attributes['class']))
-							{
-								$button->attributes['class'] = "";
-							}
-							
-							$button->attributes['class'] .= " btn btn-xs";
-							
-							echo $h->anchor($uri, 
-									"<span class='glyphicon $icon'></span> {$l->get($button->name)}", 
-									$button->attributes)." ";
+							echo $button->render($app, array("<id>" => $item->pk()));							
 						}
 					?>			
-					<button class='btn btn-info'>button</button>
-					<a class='btn btn-info'>button</a>
 				</td>
             </tr>
 	<? } ?>

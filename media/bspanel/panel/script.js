@@ -20,7 +20,7 @@ $(function(){
 		$('textarea.wysiwyg').each(function(){
 			CKEDITOR.replace(this,{
 				extraPlugins : 'image',
-				filebrowserImageUploadUrl: '/admin/upload_image'				
+				filebrowserImageUploadUrl: $(this).data('upload-image-url')
 			});
 		});
 	}

@@ -96,7 +96,11 @@ class AdminPanel {
 		
 		$this->app->router->add($this->uri('upload_image'), $this->uri('upload_image'), "core/upload_image");				
 		$this->app->router->add($this->uri('upload_images'), $this->uri('upload_images'), "core/upload_images");				
-		$this->app->router->add($this->uri('view_images'), $this->uri('view_images'), "core/view_images");				
+		$this->app->router->add($this->uri('view_images'), $this->uri('view_images'), "core/view_images")->add_config(array(
+			'list_image' => 'bspanel_list',
+			'item_image' => 'bspanel_image',
+			'list_view' => 'bspanel/images_list'
+		));				
 		
 		$this->configure_menu();		
 		$this->configure_pages();
@@ -137,6 +141,7 @@ class AdminPanel {
 	protected function configure_editable_list($uri, $model, $params)
 	{
 		$params += array(
+			'return_uri' => null,
 			'delete' => true,
 			'create' => true,
 			'list_columns' => array(
@@ -150,10 +155,13 @@ class AdminPanel {
 		
 		$list_buttons = $this->get_list_buttons($params);
 		
+		$list_buttons[] = new Action("Edit", $uri."/edit/<id>", 'glyphicon-edit',array(
+			'class' => 'btn-info'
+		));		
+		
 		if($params['delete'])
 		{
 			$this->app->router->add($uri."/delete", $uri."/delete/<id>", "core/delete")->add_config(array(
-				'return_uri' => $uri,
 				'model' => $model
 			));		
 			
@@ -161,11 +169,9 @@ class AdminPanel {
 				'onclick' => "return confirm('{$this->app->lang->get('confirm_delete')}')",
 				'class' => 'btn-danger'
 			));
-		}		
+		}				
 		
-		$list_buttons[] = new Action("Edit", $uri."/edit/<id>", 'glyphicon-edit',array(
-			'class' => 'btn-info'
-		));
+		$filter_param = Arr::get($params, 'filter_param');
 		
 		$this->app->router->add($uri, $uri, "bspanel/list")->add_config(array(
 			'create' => $params['create'],
@@ -174,12 +180,14 @@ class AdminPanel {
 			'columns' => $params['list_columns'],
 			'sortable' => $params['sortable'],
 			'uri' => $uri,
-			'filter_param' => Arr::get($params, 'filter_param'),
+			'filter_param' => $filter_param,
 			'return_uri' => $this->uri(Arr::get($params, 'return_uri'))
 		));
 		
+		$uri_param = $filter_param == null ? "" : "?{$filter_param}=<id>";
+		
 		$this->app->router->add($uri."/edit", $uri."/edit(/<id>)", "bspanel/edit")->add_config(array(
-			'return_uri' => $uri,
+			'return_uri' => $uri.$uri_param,
 			'model' => $model,
 			'filter_param' => Arr::get($params, 'filter_param'),
 			'edit_fields' => $params['edit_fields'],
@@ -202,7 +210,8 @@ class AdminPanel {
 				$list_buttons[$i] = new Action(
 						$list_buttons[$i]['name'],
 						$this->uri($list_buttons[$i]['uri']), 
-						$list_buttons[$i]['icon']);
+						$list_buttons[$i]['icon'],
+						Arr::get($list_buttons[$i],'attributes',array()));
 			}
 		}		
 		

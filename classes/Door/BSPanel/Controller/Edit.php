@@ -40,6 +40,11 @@ class Edit extends Layout{
 		
 		$id = $this->param('id');
 		
+		if( ! $this->app->is_id($id))
+		{
+			$id = null;
+		}
+		
 		$model = $this->app->models->factory($this->model, $id);		
 		
 		$edit_fields = $this->configure_fields($model);
@@ -48,7 +53,9 @@ class Edit extends Layout{
 		{
 			$this->redirect($this->return_uri);
 			return;
-		}				
+		}			
+		
+		$filter_value = null;
 		
 		if($this->filter_param !== null)
 		{
@@ -60,7 +67,7 @@ class Edit extends Layout{
 				{
 					throw new Exception("filter value not set");
 				}
-				$model->filter_param = $filter_value;
+				$model->$filter_param = $filter_value;
 				
 			}
 			else
@@ -75,7 +82,8 @@ class Edit extends Layout{
 		$view = $this->app->views->get("bspanel/edit");
 		$view->model = $model;
 		$view->return_uri = $return_uri;
-		$view->filter_param = $this->filter_param;		
+		$view->filter_param = $this->filter_param;	
+		$view->filter_value = $filter_value;
 		
 		if(count($_POST) > 0)
 		{						
@@ -97,7 +105,7 @@ class Edit extends Layout{
 			elseif( ! $model->loaded())
 			{
 				$model->save();
-				$this->redirect($this->return_uri);								
+				$this->redirect($return_uri);								
 			}
 			else				
 			{				

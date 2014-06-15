@@ -5,6 +5,6 @@ $l = $app->lang;
 
 ?>
 <div class="form-group">
-	<label class="col-sm-2 control-label"><?=$l->get($name)?></label>
+	<label class="col-sm-2 control-label"><?=$l->get_ucf($name)?></label>
 	<div class="col-sm-10"><?=$field?></div>
 </div>	

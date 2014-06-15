@@ -25,7 +25,7 @@ class Layout extends \Door\Core\Controller\Layout {
 		$this->add_script("bspanel/panel/image_uploads");
 
 		$this->add_style("components/bootstrap/css/bootstrap");
-		$this->add_style("components/bootstrap/css/bootstrap-theme");		
+		//$this->add_style("components/bootstrap/css/bootstrap-theme");		
 		$this->add_style("components/jquery-ui/themes/base/jquery-ui");
 		$this->add_style("components/select2/select2");
 		$this->add_style("bspanel/devoops/css/style");

@@ -8,6 +8,8 @@
 namespace Door\BSPanel\Controller;
 use Door\Core\Helper\Arr;
 use Door\Core\Model;
+use MongoId;
+use Exception;
 
 /**
  * Description of Panel
@@ -51,10 +53,12 @@ class ModelsList extends Layout  {
 				throw new Exception("filter param {$this->filter_param} not specified");
 			}
 			
-			$model->where($this->filter_param,'=',$filter_value);
+			$model->where($this->filter_param,'=',new MongoId($filter_value));
 			
-			$return_uri = str_replace("<id>", $filter_value, $return_uri);
+			$return_uri = str_replace("<id>", $filter_value, $return_uri);			
 		}
+		
+		
 		
 		if(isset($_POST['update_sort']))
 		{

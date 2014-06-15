@@ -119,11 +119,22 @@ $h = $app->html;
 				<ul class="nav main-menu">
 					<?
 						$uri = $app->initial_request()->uri();
+						$active_uri = null;
+						foreach($admin_menu as $item)
+						{
+							if(strpos($uri, $item->uri) === 0)
+							{
+								if($active_uri === null || strlen($item->uri) > $active_uri)
+								{
+									$active_uri = $item->uri;
+								}
+							}
+						}
 					?>
 					<? foreach($admin_menu as $item) { ?>
 					<?
 						$class = "";
-						if($uri == $item->uri)
+						if($item->uri == $active_uri)
 						{
 							$class = "active";
 						}
