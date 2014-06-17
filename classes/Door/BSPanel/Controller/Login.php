@@ -13,7 +13,7 @@ use Door\Core\Helper\Arr;
  */
 class Login extends Layout {
 	
-	protected $layout_name = "admin/login_layout";
+	protected $layout_name = "bspanel/login_layout";
 	
 	public function execute() {
 		
