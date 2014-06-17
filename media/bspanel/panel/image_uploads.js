@@ -149,7 +149,7 @@ $(function(){
 			var img_id = hidden.val();
 			if(img_id.length !== 24){
 				
-				img_holder.html('<img src="/media/images/no_image.png"/>');
+				img_holder.html('<img src="/media/bspanel/no_image.png"/>');
 				
 			} else {
 				
@@ -184,18 +184,5 @@ $(function(){
 		
 		refreshImg();
 	});
-	
-	
-	/*			<div class="wrap photo-single-uploader">
-				<label for="lab_url">Логотип</label>
-				<span class="image">
-					<?=Form::hidden('image_id', $user->image_id)?>
-					<div class="img">
-						<img src="/media/images/no_image.png"/>
-					</div>					
-					<button class="btn-send">Загрузить логотип</button>
-				</span>
-			</div>	*/
-	
 	
 });

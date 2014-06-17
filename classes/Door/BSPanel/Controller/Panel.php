@@ -19,6 +19,8 @@ class Panel extends Layout  {
 		
 		$view = $this->app->views->get("bspanel/panel");
 		
+		$view->admin_menu = $this->layout->admin_menu;
+		
 		$this->response->body($view);
 		
 		parent::execute();
