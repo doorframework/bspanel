@@ -1,5 +1,8 @@
 <?php
 
+use Door\Core\Image\Presentation as P;
+use Door\Core\Image\Converter\Fitbox;
+
 /* 
  * Created by Sachik Sergey
  * box@serginho.ru
@@ -14,21 +17,12 @@ $app->router->register_controller("bspanel/panel", "/Door/BSPanel/Controller/Pan
 
 $app->router->register_wrapper("bspanel/left_menu", "/Door/BSPanel/Wrapper/LeftMenu");
 
-$app->image->add_presentation('bspanel_list', array(
-	array(
-		'converter' => 'fitbox',
-		'width' => 240,
-		'height' => 137,
-		'strict' => true
-	)
-));
+$app->image->add(new P('bspanel_list', array(
+	new Fitbox(240, 137, true)
+)));
 
-$app->image->add_presentation('bspanel_image', array(
-	array(
-		'converter' => 'fitbox',
-		'width' => 240,
-		'height' => 240
-	)
-));
+$app->image->add(new P('bspanel_image', array(
+	new Fitbox(240, 240)
+)));
 
 
