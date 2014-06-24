@@ -1,7 +1,7 @@
 <?
 	use Door\Bootstrap\Helper\Icons;
 	$h = $app->html;
-	
+	array_shift($admin_menu);
 ?>
 <h1>Панель управления</h1>
 <br/><br/>

@@ -4,7 +4,7 @@
  * Created by Sachik Sergey
  * box@serginho.ru
  */
-namespace App\Controller\Admin;
+namespace Door\BSPanel\Controller;
 /**
  * Description of Logout
  *
@@ -12,10 +12,12 @@ namespace App\Controller\Admin;
  */
 class Logout extends \Door\Core\Controller {
 	
+	protected $redirect_uri = "";
+	
 	public function execute() {
 		
 		$this->app->auth->logout();
-		$this->redirect("admin/login");
+		$this->redirect($this->redirect_uri);
 		
 	}
 	

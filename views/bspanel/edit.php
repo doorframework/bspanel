@@ -6,7 +6,7 @@ use Door\Bootstrap\Helper\Icons;
 $l = $app->lang;
 $h = $app->html;
 ?>
-<h1><?=$l->get_ucf($model->get_model_name()).": ".$l->get("editing")?>&nbsp;<?
+<h1><?=$title?>&nbsp;<?
 
 	if($return_uri !== null)
 	{

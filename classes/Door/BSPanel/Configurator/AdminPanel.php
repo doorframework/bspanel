@@ -150,7 +150,9 @@ class AdminPanel {
 			'edit_fields' => array(
 				'name'
 			),
-			'sortable' => false
+			'sortable' => false,
+			'sort' => null,
+			'sort_column' => 'sort'
 		);		
 		
 		$list_buttons = $this->get_list_buttons($params);
@@ -179,8 +181,10 @@ class AdminPanel {
 			'model' => $model,
 			'columns' => $params['list_columns'],
 			'sortable' => $params['sortable'],
+			'sort' => $params['sort'],
 			'uri' => $uri,
 			'filter_param' => $filter_param,
+			'filter_model' => Arr::get($params, 'filter_model'),
 			'return_uri' => $this->uri(Arr::get($params, 'return_uri'))
 		));
 		
@@ -189,7 +193,8 @@ class AdminPanel {
 		$this->app->router->add($uri."/edit", $uri."/edit(/<id>)", "bspanel/edit")->add_config(array(
 			'return_uri' => $uri.$uri_param,
 			'model' => $model,
-			'filter_param' => Arr::get($params, 'filter_param'),
+			'filter_param' => $filter_param,
+			'filter_model' => Arr::get($params, 'filter_model'),
 			'edit_fields' => $params['edit_fields'],
 			'view_images_uri' => $this->uri('view_images'),
 			'upload_images_uri' => $this->uri('upload_images'),
@@ -225,7 +230,9 @@ class AdminPanel {
 			"login_role" => $this->login_role,
 			"redirect_uri" => $this->prefix."/login"	
 		));		
-		$router->add($this->prefix."/logout",$this->prefix."/logout", "bspanel/logout");
+		$router->add($this->prefix."/logout",$this->prefix."/logout", "bspanel/logout")->add_config(array(
+			'redirect_uri' => $this->prefix."/login"
+		));
 		$router->add($this->prefix."/login",$this->prefix."/login", "bspanel/login");
 	}
 	

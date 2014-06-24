@@ -22,6 +22,8 @@ class ModelsList extends Layout  {
 	
 	protected $filter_param = null;
 	
+	protected $filter_model = null;
+	
 	protected $buttons = array();
 	
 	protected $return_uri = null;
@@ -31,6 +33,8 @@ class ModelsList extends Layout  {
 	protected $columns = array();
 	
 	protected $sortable = false;
+	
+	protected $sort = null;
 	
 	protected $sort_column = 'sort';
 	
@@ -44,8 +48,6 @@ class ModelsList extends Layout  {
 		
 		if($this->filter_param !== null)
 		{
-			
-			
 			$filter_value = Arr::get($_GET, $this->filter_param);
 			
 			if($filter_value === null)
@@ -75,6 +77,10 @@ class ModelsList extends Layout  {
 		{
 			$cursor->sort(array($this->sort_column => 1));
 		}
+		elseif($this->sort !== null)
+		{
+			$cursor->sort($this->sort);
+		}
 		
 		$view->items = $cursor->as_array();		
 		$view->create_button = $this->create;
@@ -85,6 +91,21 @@ class ModelsList extends Layout  {
 		$view->sortable = $this->sortable;		
 		$view->filter_param = $this->filter_param;
 		$view->filter_value = $filter_value;
+		
+		$l = $this->app->lang;
+		
+		if($this->filter_model === null)
+		{
+			$view->title = $l->get_ucf($model->get_model_name().".list");
+		}
+		else
+		{
+			$filter_model = $this->app->models->factory($this->filter_model, $filter_value);
+			$view->title = $filter_model->name().": ".$l->get_ucf($model->get_model_name().".list");
+		}		
+		
+		$this->title = $view->title;
+		
 		$this->response->body($view->render());
 		
 		parent::execute();

@@ -48,4 +48,10 @@ $(function(){
 		});
 		
 	});
+	
+	$('.bspanel-tabs').tab();
+	
+	$('input.datepicker').datepicker({
+		dateFormat : "dd.mm.yy"
+	});
 });

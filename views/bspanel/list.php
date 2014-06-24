@@ -16,7 +16,7 @@ $h = $app->html;
 <div class="container">
     <div class="row col-md-12 custyle">
 	<h1>
-		<?=$l->get_ucf($model->get_model_name().".list")?>
+		<?=$title?>
 		<? 
 		if(strlen($return_uri) > 0) { 
 			echo $h->anchor($return_uri, Icons::glyphicon('backward').' '.$l->get_ucf("back"),array('class' => 'btn btn-info'));
@@ -59,6 +59,10 @@ $h = $app->html;
 						{
 							$val = Icons::show($val ? "ok" : "remove");
 						}
+						if($fields[$column]['type'] == 'date')
+						{
+							$val = date('d.m.Y', $val);
+						}						
 						echo "<td>$val</td>";
 					}
 				?>
