@@ -109,9 +109,20 @@ class Edit extends Layout{
 		
 		if(count($_POST) > 0)
 		{						
-			foreach($builder->get_boolean_fields() as $field)
+			$field_types = $builder->get_fields_types();
+			foreach($field_types as $name => $type)
 			{
-				$model->$field = false;
+				if( !array_key_exists($name, $_POST))						
+				{
+					if($type == 'boolean')
+					{
+						$model->$name = false;
+					}
+					elseif($type == 'tags')
+					{
+						$model->$name = array();
+					}
+				}
 			}
 		
 			$model->values($_POST);

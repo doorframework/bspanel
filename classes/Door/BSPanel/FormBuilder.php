@@ -227,30 +227,30 @@ class FormBuilder {
 		return $edit_field_cfg;
 	}	
 	
-	public function get_boolean_fields($fields = null)
-	{	
+	public function get_fields_types()
+	{
+		return $this->_get_fields_types($this->fields);
+	}
+	
+	protected function _get_fields_types(array $fields)
+	{
 		$return_value = array();
 		
-		if($fields === null)
-		{
-			$fields = $this->fields;
-		}
 		foreach($fields as $field_cfg)
 		{
-			$field = $this->configure_field($field_cfg);
-			if($field['type'] == 'boolean')
-			{
-				$return_value[] = $field['name'];
+			$field = $this->configure_field($field_cfg);			
+			if($field['type'] !== 'tabs')
+			{				
+				$return_value[$field['name']] = $field['type'];				
 			}
-			elseif($field['type'] == 'tabs')
+			else
 			{
-				
 				foreach($field['tabs'] as $tab_config)
 				{
-					$return_value += $this->get_boolean_fields($tab_config['fields']);
+					$return_value += $this->_get_fields_types($tab_config['fields']);
 				}
 			}
-		}
+		}		
 		
 		return $return_value;
 	}
