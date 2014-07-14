@@ -24,8 +24,25 @@ $(function(){
 			});
 		});
 	}
+	
+	$(".select2").each(function(){
 		
-	$('.select2').select2Sortable({placeholder: "Выбор"});
+		var select = $(this);
+		select.select2Sortable({
+			placeholder: "Выбор",
+			bindOrder       : 'sortableStop',
+			sortableOptions: {
+				update: function(event, ui){
+					console.log('sort',this);
+				}
+			}
+		}).change(function(){
+			console.log('update', this);
+		});		
+		
+	});
+		
+
 	
 	$('table.sortable-table').each(function(){
 		
