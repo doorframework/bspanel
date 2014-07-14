@@ -23,6 +23,7 @@ class Layout extends \Door\Core\Controller\Layout {
 		$this->add_script("components/bootstrap/js/bootstrap");
 		$this->add_script("bspanel/panel/script");
 		$this->add_script("bspanel/panel/image_uploads");
+		$this->add_script("bspanel/panel/select2.sortable");
 
 		$this->add_style("components/bootstrap/css/bootstrap");
 		//$this->add_style("components/bootstrap/css/bootstrap-theme");		

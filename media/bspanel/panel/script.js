@@ -24,8 +24,8 @@ $(function(){
 			});
 		});
 	}
-	
-	$('.select2').select2({placeholder: "Выбор"});
+		
+	$('.select2').select2Sortable({placeholder: "Выбор"});
 	
 	$('table.sortable-table').each(function(){
 		
