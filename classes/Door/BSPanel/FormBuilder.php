@@ -182,6 +182,7 @@ class FormBuilder {
 				case Type::BOOLEAN:
 					$edit_field_cfg['type'] = 'boolean';
 					break;
+				case Type::DOUBLE:
 				case Type::INTEGER:
 				case Type::STRING:
 					$edit_field_cfg['type'] = 'text';
