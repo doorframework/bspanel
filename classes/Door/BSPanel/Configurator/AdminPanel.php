@@ -25,6 +25,8 @@ class AdminPanel {
 	
 	protected $lists = array();
 	
+	protected $edit_pages = array();
+	
 	/**
 	 *
 	 * @var Application

@@ -30,7 +30,16 @@ $h = $app->html;
 			<th>&nbsp;</th>
 			<? } ?>
 			<? foreach($columns as $column) { ?>
-			<th><?=$l->get_ucf($column)?></th>
+			<th><?
+				if($column instanceof \Door\BSPanel\Data\IColumn) {
+					
+					echo $l->get_ucf($column->name());
+					
+				} else {
+					echo $l->get_ucf($column);
+				}
+			
+					?></th>
 			<? } ?>
             <th class="text-right">
 				<?
@@ -53,17 +62,24 @@ $h = $app->html;
 				<?
 					$fields = $model->get_fields();
 					foreach($columns as $column)
-					{											
-						$val = $item->$column;
-						if($fields[$column]['type'] == 'boolean')
-						{
-							$val = Icons::show($val ? "ok" : "remove");
+					{								
+						if($column instanceof \Door\BSPanel\Data\IColumn) {
+
+							echo "<td>".$column->render($item)."</td>";
+							
+						} else {
+							$val = $item->$column;
+							if($fields[$column]['type'] == 'boolean')
+							{
+								$val = Icons::show($val ? "ok" : "remove");
+							}
+							if($fields[$column]['type'] == 'date')
+							{
+								$val = date('d.m.Y', $val);
+							}						
+							echo "<td>$val</td>";							
 						}
-						if($fields[$column]['type'] == 'date')
-						{
-							$val = date('d.m.Y', $val);
-						}						
-						echo "<td>$val</td>";
+
 					}
 				?>
                 <td class="text-right">

@@ -5,6 +5,7 @@
  * box@serginho.ru
  */
 namespace Door\BSPanel\Controller;
+use Door\BSPanel\Field\IField;
 use Door\BSPanel\FormBuilder;
 use Door\Core\Database\Relation;
 use Door\Core\Database\Type;
@@ -112,8 +113,12 @@ class Edit extends Layout{
 			$field_types = $builder->get_fields_types();
 			foreach($field_types as $name => $type)
 			{
-				if( !array_key_exists($name, $_POST))						
+				if($type instanceof IField)
 				{
+					$type->fill_model($model, $_POST);
+				}				
+				elseif( !array_key_exists($name, $_POST))						
+				{					
 					if($type == 'boolean')
 					{
 						$model->$name = false;

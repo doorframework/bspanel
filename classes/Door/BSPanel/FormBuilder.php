@@ -5,11 +5,13 @@
  * box@serginho.ru
  */
 namespace Door\BSPanel;
+use Door\BSPanel\Field\IField;
 use Door\Core\Helper\Arr;
 use Door\Core\Model;
 use Exception;
 use Door\Core\Database\Type;	
 use Door\Core\Database\Relation;
+
 /**
  * Description of FormBuilder
  *
@@ -49,6 +51,11 @@ class FormBuilder {
 	
 	protected function render_field($config)
 	{
+		if($config instanceof IField)
+		{
+			return $config->render($this->model);
+		}
+		
 		if(is_string($config))
 		{
 			$config = $this->field_cfg_from_string($config);
@@ -240,7 +247,11 @@ class FormBuilder {
 		foreach($fields as $field_cfg)
 		{
 			$field = $this->configure_field($field_cfg);			
-			if($field['type'] !== 'tabs')
+			if($field instanceof IField)
+			{
+				$return_value[$field->name()] = $field;
+			}
+			elseif($field['type'] !== 'tabs')
 			{				
 				$return_value[$field['name']] = $field['type'];				
 			}

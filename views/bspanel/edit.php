@@ -22,8 +22,8 @@ $h = $app->html;
 <? if(isset($success)) { ?>
 <p class="bg-success"><?=$l->get_ucf("saved")?></p>
 <? } ?>
-
-
+<div class="box">
+	<div class="box-content">
 <form role="form" class="form-horizontal" method="POST" action="">		
 	<?
 		if($filter_param != null)
@@ -33,7 +33,7 @@ $h = $app->html;
 	?>
 	<?=$fields?>
 	<div class="clearfix"></div>
-	<div class="form-group text-right">
+	<div class="text-right">
 		<div class="col-sm-12">
 		<a class="btn btn-default btn-label-left" href="<?=$app->url->site($return_uri)?>">
 			<?=Icons::fa('backward')?>
@@ -47,3 +47,5 @@ $h = $app->html;
 		</div>
 	</div>
 </form>
+	</div>
+</div>
