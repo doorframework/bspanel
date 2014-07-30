@@ -21,6 +21,10 @@ class Column implements IColumn{
 		
 	}
 	
+	public function __toString() {
+		return $this->name();
+	}
+	
 	public function name()
 	{
 		return $this->name;		

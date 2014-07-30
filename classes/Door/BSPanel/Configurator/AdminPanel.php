@@ -154,7 +154,8 @@ class AdminPanel {
 			),
 			'sortable' => false,
 			'sort' => null,
-			'sort_column' => 'sort'
+			'sort_column' => 'sort',
+			'grid' => false
 		);		
 		
 		$list_buttons = $this->get_list_buttons($params);
@@ -187,7 +188,8 @@ class AdminPanel {
 			'uri' => $uri,
 			'filter_param' => $filter_param,
 			'filter_model' => Arr::get($params, 'filter_model'),
-			'return_uri' => $this->uri(Arr::get($params, 'return_uri'))
+			'return_uri' => $this->uri(Arr::get($params, 'return_uri')),
+			'grid' => $params['grid']
 		));
 		
 		$uri_param = $filter_param == null ? "" : "?{$filter_param}=<id>";

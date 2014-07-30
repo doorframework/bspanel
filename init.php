@@ -17,6 +17,8 @@ $app->router->register_controller("bspanel/panel", "/Door/BSPanel/Controller/Pan
 
 $app->router->register_wrapper("bspanel/left_menu", "/Door/BSPanel/Wrapper/LeftMenu");
 
+$app->media->add("datatables", $app->vendorpath()."/datatables/datatables", false);
+
 $app->image->add(new P('bspanel_list', array(
 	new Fitbox(240, 137, true)
 )));

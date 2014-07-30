@@ -10,7 +10,8 @@
 		}
     ],
     "require": {
-		"doorframework/bootstrap" : "dev-master"
+		"doorframework/bootstrap" : "dev-master",
+		"datatables/datatables": "1.10.1"
     },
     "autoload": {
         "psr-0" : {
