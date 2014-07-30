@@ -60,7 +60,7 @@ class Action {
 
 		$attributes['class'] .= " btn btn-{$this->btn_size} btn-{$this->btn_type} btn-label-left";
 
-		echo $app->html->anchor($uri, 
+		return $app->html->anchor($uri, 
 				Icons::show($this->icon)." ".$app->lang->get_ucf($this->name), 
 				$attributes)." ";		
 	}

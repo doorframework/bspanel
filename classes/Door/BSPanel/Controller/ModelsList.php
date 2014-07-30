@@ -121,16 +121,45 @@ class ModelsList extends Layout  {
 		{
 			$cursor->sort($this->sort);
 		}
+		
+		$fields = $model->get_fields();
 
-		while($item = $items->getNext())
+		while($item = $cursor->getNext())
 		{
 			$item_data = array();
 			foreach($this->columns as $column)
 			{
-				$item_data[$column] = $item->$column;
+				$val = "";
+				if($column instanceof \Door\BSPanel\Data\IColumn) {
+
+					$val = $column->render($item);
+
+				} else {
+					$val = $item->$column;
+					if($fields[$column]['type'] == 'boolean')
+					{
+						$val = Icons::show($val ? "ok" : "remove");
+					}
+					if($fields[$column]['type'] == 'date')
+					{
+						$val = date('d.m.Y', $val);
+					}										
+				}										
+				
+				$item_data[] = $val;
 			}
+			
+			$buttons_text = "";
+			foreach($this->buttons as $button)
+			{
+				$buttons_text .= " " . $button->render($this->app, array("<id>" => $item->pk()));
+			}			
+			
+			$item_data[] = $buttons_text;
 			$return_value['data'][] = $item_data;
 		}
+		
+		$return_value['recordsFiltered'] = count($return_value['data']);
 		
 		$this->response->headers("Content-Type","application/json; charset=utf-8");
 		$this->response->body(json_encode($return_value));
