@@ -109,18 +109,28 @@ class ModelsList extends Layout  {
 		$cursor = $model->find_all();
 		
 		$return_value['recordsTotal'] = $cursor->count();
+		$return_value['recordsFiltered'] = $return_value['recordsTotal'];
+		
+		
 		
 		$cursor->limit($limit);
 		$cursor->skip($offset);
 		
-		if($this->sortable)
+		if(isset($_GET['order']) && is_array($_GET['order']) && count($_GET['order']) > 0)
 		{
-			$cursor->sort(array($this->sort_column => 1));
+			$sort = array();
+			foreach($_GET['order'] as $order_config)
+			{
+				if(isset($this->columns[$order_config['column']]))
+				{
+					$sort[(string)$this->columns[$order_config['column']]] = $order_config['dir'] == 'desc' ? -1 : 1;
+				}
+			}
 		}
-		elseif($this->sort !== null)
-		{
-			$cursor->sort($this->sort);
-		}
+		
+		$return_value['sort'] = $sort;
+		
+		$cursor->sort($sort);
 		
 		$fields = $model->get_fields();
 
@@ -157,9 +167,7 @@ class ModelsList extends Layout  {
 			
 			$item_data[] = $buttons_text;
 			$return_value['data'][] = $item_data;
-		}
-		
-		$return_value['recordsFiltered'] = count($return_value['data']);
+		}				
 		
 		$this->response->headers("Content-Type","application/json; charset=utf-8");
 		$this->response->body(json_encode($return_value));

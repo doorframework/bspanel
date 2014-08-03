@@ -19,7 +19,7 @@ $(function(){
 	{
 		$('textarea.wysiwyg').each(function(){
 			CKEDITOR.replace(this,{
-				extraPlugins : 'image',
+				extraPlugins : 'image,colorbutton,colordialog',
 				filebrowserImageUploadUrl: $(this).data('upload-image-url')
 			});
 		});

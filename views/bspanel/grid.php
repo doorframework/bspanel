@@ -50,6 +50,8 @@ $(function(){
 	var uri = '<?=$uri?>';
 	
 	table.DataTable({
+        "processing": true,
+        "serverSide": true,		
 		ajax: {
 			url: "/" + uri,
 			data: {
