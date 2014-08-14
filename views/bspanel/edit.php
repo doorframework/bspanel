@@ -8,7 +8,7 @@ $h = $app->html;
 ?>
 <h1><?=$title?>&nbsp;<?
 
-	if($return_uri !== null)
+	if(isset($return_uri) && $return_uri !== null)
 	{
 		echo $h->anchor($return_uri, Icons::glyphicon('backward')." ".$l->get_ucf("back"), array('class' => 'btn btn-default'));
 	}
@@ -26,7 +26,7 @@ $h = $app->html;
 	<div class="box-content">
 <form role="form" class="form-horizontal" method="POST" action="">		
 	<?
-		if($filter_param != null)
+		if(isset($filter_param) && $filter_param != null)
 		{
 			echo \Door\Core\Helper\Form::hidden($filter_param, $model->$filter_param);
 		}
@@ -35,11 +35,13 @@ $h = $app->html;
 	<div class="clearfix"></div>
 	<div class="text-right">
 		<div class="col-sm-12">
-		<a class="btn btn-default btn-label-left" href="<?=$app->url->site($return_uri)?>">
-			<?=Icons::fa('backward')?>
-			<?=$l->get_ucf('back')?>
-		</a>		
-		&nbsp;
+		<? if(isset($return_uri)) { ?>
+			<a class="btn btn-default btn-label-left" href="<?=$app->url->site($return_uri)?>">
+				<?=Icons::fa('backward')?>
+				<?=$l->get_ucf('back')?>
+			</a>		
+			&nbsp;
+		<? } ?>
 		<button class="btn btn-primary btn-label-left" type="submit">
 			<?=Icons::fa('save')?>
 			<?=$l->get_ucf("save")?>

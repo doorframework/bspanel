@@ -101,7 +101,7 @@ class Edit extends Layout{
 		
 		$this->title = $view->title;		
 		
-		$builder = new FormBuilder();
+		$builder = new FormBuilder($this->app);
 		$builder->set_model($model);
 		$builder->add_fields($this->edit_fields);
 		$builder->data('view_images_uri', $this->view_images_uri);

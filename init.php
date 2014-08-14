@@ -14,6 +14,7 @@ $app->router->register_controller("bspanel/list", "/Door/BSPanel/Controller/Mode
 $app->router->register_controller("bspanel/login", "/Door/BSPanel/Controller/Login");
 $app->router->register_controller("bspanel/logout", "/Door/BSPanel/Controller/Logout");
 $app->router->register_controller("bspanel/panel", "/Door/BSPanel/Controller/Panel");
+$app->router->register_controller("bspanel/kveditor", "/Door/BSPanel/Controller/KeyValueEditor");
 
 $app->router->register_wrapper("bspanel/left_menu", "/Door/BSPanel/Wrapper/LeftMenu");
 

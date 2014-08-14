@@ -106,7 +106,9 @@ class AdminPanel {
 		
 		$this->configure_menu();		
 		$this->configure_pages();
-		$this->configure_login();		
+		$this->configure_kveditors();
+		$this->configure_login();
+		
 	}
 	
 	protected function configure_menu()
@@ -238,6 +240,41 @@ class AdminPanel {
 			'redirect_uri' => $this->prefix."/login"
 		));
 		$router->add($this->prefix."/login",$this->prefix."/login", "bspanel/login");
+	}
+	
+	protected $kveditors = array();
+	
+	/**
+	 * 
+	 * @param type $uri
+	 * @param type $model
+	 * @param array $fields
+	 * @param type $key_field
+	 * @param type $value_field
+	 * @return \Door\BSPanel\Configurator\AdminPanel
+	 */
+	public function add_kveditor($uri, $model, array $fields, $title, $key_field = "key", $value_field = "value")
+	{
+		$this->kveditors[] = array(
+			'uri' => $uri,
+			'model' => $model,
+			'title' => $title,
+			'fields' => $fields,
+			'key_field' => $key_field,
+			'values_field' => $value_field
+		);
+		
+		return $this;
+	}
+	
+	protected function configure_kveditors()
+	{
+		foreach($this->kveditors as $kveditor_config)
+		{
+			$uri = $this->uri($kveditor_config['uri']);
+			
+			$this->app->router->add($uri, $uri, "bspanel/kveditor")->add_config($kveditor_config);							
+		}
 	}
 	
 	

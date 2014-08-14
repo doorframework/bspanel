@@ -11,6 +11,7 @@ use Door\Core\Model;
 use Exception;
 use Door\Core\Database\Type;	
 use Door\Core\Database\Relation;
+use Door\Core\Application;
 
 /**
  * Description of FormBuilder
@@ -26,7 +27,8 @@ class FormBuilder {
 		'image',
 		'gallery',
 		'wysiwyg',
-		'date'
+		'date',
+		'textarea'
 	);
 	
 	protected $data = array();
@@ -38,6 +40,22 @@ class FormBuilder {
 	 * @var Model
 	 */
 	protected $model = null;
+	
+	protected $values = array();
+	
+	/**
+	 *
+	 * @var Application
+	 */
+	protected $app;
+	
+	
+	public function __construct(Application $app) {
+		
+		$this->app = $app;
+		
+	}
+	
 	
 	public function add_field($config)
 	{
@@ -74,13 +92,14 @@ class FormBuilder {
 			throw new Exception("bad type supported");
 		}	
 		
-		$view = $this->model->app()->views->get("bspanel/field/".$type, $this->data);
+		$view = $this->app->views->get("bspanel/field/".$type, $this->data);
 		
 		$view->name = $name;
-		$view->value = $this->model->$name;
+		$view->value = $this->get_value($name);
 		$view->model = $this->model;
+		$view->field_config = $config;
 		
-		$layout = $this->model->app()->views->get('bspanel/field/layout');
+		$layout = $this->app->views->get('bspanel/field/layout');
 
 		$layout->name = $name;
 		$layout->field = $view->render();
@@ -100,7 +119,7 @@ class FormBuilder {
 			$class = $is_first ? "active" : "";
 			
 			$tab_id = uniqid();
-			$name = $this->model->app()->lang->get_ucf($tab_config['name']);
+			$name = $this->app->lang->get_ucf($tab_config['name']);
 			$fields = $tab_config['fields'];
 			$tab_buttons[] = "<li class='$class'><a href='#{$tab_id}' data-toggle='tab'>{$name}</a></li>";
 			
@@ -159,6 +178,31 @@ class FormBuilder {
 		}
 	}
 	
+	public function set_value($name, $value)
+	{
+		$this->values[$name] = $value;
+	}
+	
+	public function set_values(array $values)
+	{
+		foreach($values as $key => $value)
+		{
+			$this->set_value($key, $value);
+		}
+	}
+	
+	public function get_value($name)
+	{
+		if($this->model !== null)
+		{
+			return $this->model->$name;
+		}
+		else
+		{
+			return Arr::get($this->values, $name);
+		}
+	}
+	
 	public function data($key, $value)
 	{
 		$this->data[$key] = $value;
@@ -178,6 +222,11 @@ class FormBuilder {
 		$edit_field_cfg = array(
 			'name' => $name
 		);
+		
+		if($this->model == null)
+		{
+			throw new Exception('model not set');
+		}
 
 		$field = Arr::get($this->model->fields(), $name);
 		$relation = Arr::get($this->model->get_relations(), $name);
