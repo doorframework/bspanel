@@ -129,8 +129,11 @@ class Edit extends Layout{
 					}
 				}
 			}
+			
+			$fields_keys = array_keys($model->fields());
+			$relations_keys = array_keys($model->relations());
 		
-			$model->values($_POST);
+			$model->values($_POST, $fields_keys);
 			
 			if( ! $model->check())
 			{
@@ -139,11 +142,13 @@ class Edit extends Layout{
 			elseif( ! $model->loaded())
 			{
 				$model->save();
+				$model->values($_POST, $relations_keys);
 				$this->redirect($return_uri);								
 			}
 			else				
 			{				
 				$model->save();
+				$model->values($_POST, $relations_keys);
 				$view->success = true;
 			}
 		}						
